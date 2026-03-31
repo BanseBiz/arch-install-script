@@ -1,6 +1,3 @@
-Here is the updated `README.md`. I have expanded the "Phase Breakdown" section to perfectly mirror all 8 distinct phases exactly as they appear in the script's comments, ensuring every step of the automation is fully documented.
-
-```markdown
 # Arch Linux Automated Installer (LVM on LUKS)
 
 This repository contains a robust, fully automated shell script for installing Arch Linux. It is designed to take a bare metal drive and turn it into a fully configured, encrypted, and daily-driver-ready operating system with minimal user intervention.
