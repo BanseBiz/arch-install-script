@@ -194,9 +194,6 @@ EOF
 echo "Enabling core daemons (SSH, TRIM, NTP, Bluetooth, Power Management, Avahi)..."
 arch-chroot /mnt systemctl enable systemd-resolved sshd fstrim.timer systemd-timesyncd bluetooth power-profiles-daemon avahi-daemon
 
-echo "Configuring network resolution components..."
-arch-chroot /mnt ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-
 # Inject mdns_minimal into nsswitch.conf so local network discovery works
 sed -i 's/resolve/mdns_minimal [NOTFOUND=return] resolve/' /mnt/etc/nsswitch.conf
 
