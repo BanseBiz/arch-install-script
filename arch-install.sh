@@ -223,7 +223,6 @@ console-mode max
 editor no
 EOF
     
-    # Conditionally include microcode initrd if it exists
     UCODE_ENTRY=""
     if [ -n "$UCODE_IMG" ]; then
         UCODE_ENTRY="initrd  /${UCODE_IMG}"
@@ -234,3 +233,35 @@ title   Arch Linux
 linux   /vmlinuz-linux
 ${UCODE_ENTRY}
 initrd  /initramfs-linux.img
+options cryptdevice=UUID=${LUKS_UUID}:cryptlvm:allow-discards root=/dev/archvg/root resume=/dev/archvg/swap rw
+EOF
+
+elif [ "$BOOT_CHOICE" == "2" ]; then
+    arch-chroot /mnt pacman -S --noconfirm efibootmgr
+    EFIDISK=$DEVICE
+    EFIPART=1
+    
+    UCODE_PARAM=""
+    if [ -n "$UCODE_IMG" ]; then
+        UCODE_PARAM="initrd=\\${UCODE_IMG} "
+    fi
+
+    # Ensuring no trailing spaces exist after any of these backslashes
+    arch-chroot /mnt efibootmgr --create \
+        --disk ${EFIDISK} \
+        --part ${EFIPART} \
+        --label "Arch Linux" \
+        --loader /vmlinuz-linux \
+        --unicode "${UCODE_PARAM}cryptdevice=UUID=${LUKS_UUID}:cryptlvm:allow-discards root=/dev/archvg/root resume=/dev/archvg/swap rw initrd=\\initramfs-linux.img" \
+        --verbose
+fi
+
+# ---------------------------------------------------------
+# Phase 8: Finalization
+# ---------------------------------------------------------
+echo ""
+echo "================================================="
+echo "             INSTALLATION COMPLETE!              "
+echo "================================================="
+echo "You can now safely reboot your system."
+echo "Command: umount -R /mnt && reboot"
