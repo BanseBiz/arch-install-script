@@ -85,4 +85,3 @@ Outputs a success message and provides the final commands the user needs to manu
 Because graphics driver requirements vary wildly depending on your exact hardware, GPU drivers (Mesa, NVIDIA, etc.) are **not** automatically installed by this script. 
 
 After your first reboot, log into your new system and manually install the appropriate drivers for your hardware (e.g., `mesa`, `vulkan-radeon`, `nvidia`) to ensure your Desktop Environment performs optimally.
-```
